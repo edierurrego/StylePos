@@ -4,122 +4,189 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
-    <link rel="stylesheet" href="">
-</head>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #000;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        background-image: url(''); /* Reemplaza con tu imagen de fondo */
-        background-size: 90%;
-        background-attachment: fixed;
-    }
+    <style>
+        /* Estilos globales */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('background.jpg'); /* Reemplaza con tu imagen */
+            background-size: cover;
+            background-attachment: fixed;
+        }
 
-     /* Logo con mensaje manuscrito */
-     .logo-container {
+        /* Contenedor del logo */
+        .logo-container {
             position: absolute;
             top: 20px;
             left: 20px;
-            width: 120px;
-            height: auto;
-            
+            width: 100px;
         }
 
         .logo-container img {
             width: 100%;
             height: auto;
+            border-radius: 50%;
             object-fit: contain;
-            border-radius: 100px;
-            
         }
 
         .logo-container .logo-message {
-            position: absolute;
-            top: -5px;
-            left: 70%;
-            transform: translateX(-1%);
+            margin-top: 5px;
+            text-align: center;
             color: #fff;
-            font-size: 1em;
-            font-family: 'Dancing Script', cursive; /* Fuente manuscrita */
+            font-size: 1.2em;
+            font-family: 'Dancing Script', cursive;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
+        /* Contenedor principal de login */
+        .login-container {
+            color: #ebe7e7;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
+            max-width: 400px;
+            width: 90%;
+            margin: 0 auto;
+        }
 
-    .login-container {
-        color: #ebe7e7;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(250, 248, 248, 0.993);
-        width: 400px;
-        background-image: url(''); /* Reemplaza con tu imagen de fondo */
-        background-size: cover;
-    }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            color: #fff;
+        }
 
-    h1 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
+        /* Estilos del formulario */
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-    .form-group {
-        margin-bottom: 15px;
-        color: #ffff;
-    }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #fff;
+            font-weight: bold;
+        }
 
-    label {
-        display: block;
-        margin-bottom: 8px;
-    }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 20px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
 
-    input[type="text"],
-    input[type="password"] {
-        width: 100%;
-        padding: 10px;
-        border: 3px solid #ccc;
-        border-radius: 20px;
-        box-sizing: border-box;
-    }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #00bfff;
+            color: #fff;
+            border-radius: 20px;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
 
-    button {
-        width: 100%;
-        padding: 10px;
-        background-color: aqua;
-        color: #000;
-        border-radius: 15px;
-        cursor: pointer;
-        border: none;
-    }
+        button:hover {
+            background-color: #0099cc;
+        }
 
-    button:hover {
-        background-color: #218838;
-    }
+        /* Mensajes */
+        #loginMessage {
+            margin-top: 10px;
+            text-align: center;
+            color: #fff;
+            font-size: 0.9rem;
+        }
 
-    #loginMessage {
-        margin-top: 10px;
-        color: #ffff;
-        text-align: center;
-    }
+        .error-message {
+            color: red;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 10px;
+        }
 
-    .error-message {
-        color: red;
-        text-align: center;
-        margin-top: 10px;
-    }
-</style>
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .logo-container {
+                width: 80px;
+                top: 10px;
+                left: 10px;
+            }
+
+            .logo-container .logo-message {
+                font-size: 1em;
+            }
+
+            button {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .logo-container {
+                width: 60px;
+            }
+
+            .logo-container .logo-message {
+                font-size: 0.9em;
+            }
+
+            .login-container {
+                padding: 15px;
+                border-radius: 8px;
+            }
+
+            h1 {
+                font-size: 1.2em;
+            }
+
+            input[type="text"],
+            input[type="password"] {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+
+            button {
+                padding: 8px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
 <body>
-     <!-- Logo con mensaje -->
-     <div class="logo-container">
-        <img src="image.png" alt="Logo de la Empresa"> <!-- Cambia 'logo.png' por tu archivo PNG transparente -->
+    <!-- Logo con mensaje -->
+    <div class="logo-container">
+        <img src="image.png" alt="Logo de la Empresa">
         <div class="logo-message">StylePos</div>
     </div>
 
+    <!-- Contenedor de login -->
     <div class="login-container">
         <h1>Iniciar Sesión</h1>
-        <form method="POST" action="login.php">
+        <form id="loginForm">
             <div class="form-group">
                 <label for="username">Nombre de Usuario:</label>
                 <input type="text" id="username" name="username" required>
@@ -129,13 +196,37 @@
                 <input type="password" id="password" name="password" required>
             </div>
             <button type="submit">INICIAR</button>
-            <!-- Mostrar mensaje de error si hay uno -->
-            <?php if (isset($_SESSION['message'])): ?>
-                <div class="error-message">
-                    <?php echo $_SESSION['message']; unset($_SESSION['message']); ?>
-                </div>
-            <?php endif; ?>
+            <div id="loginMessage"></div>
         </form>
     </div>
+
+    <script>
+        // Simulación de usuarios
+        const usuarios = {
+            'admin': { password: '2025**', rol: 'administrador', correo: 'admin@example.com' },
+            'user': { password: '5678', rol: 'usuario', correo: 'user@example.com' }
+        };
+
+        // Manejo del formulario de inicio de sesión
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const loginMessage = document.getElementById('loginMessage');
+            
+            // Verificar las credenciales
+            if (usuarios[username] && usuarios[username].password === password) {
+                // Simulación de redirección según el rol
+                if (usuarios[username].rol === 'administrador') {
+                    window.location.href = 'perfil_admin.html'; // Redirige a página de administrador
+                } else {
+                    window.location.href = 'user_dashboard.html'; // Redirige a página de usuario
+                }
+            } else {
+                loginMessage.innerHTML = '<div class="error-message">Nombre de usuario o contraseña incorrectos.</div>';
+            }
+        });
+    </script>
 </body>
 </html>

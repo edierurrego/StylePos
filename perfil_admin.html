@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil Administrador</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="perfil-container">
+        <!-- Formulario para agregar o editar servicio -->
+        <div class="form-container">
+            <h2 id="form-title">Agregar Servicio</h2>
+            <form id="service-form">
+                <label for="nombre_servicio">Nombre del servicio:</label>
+                <input type="text" id="nombre_servicio" name="nombre_servicio" required>
+
+                <label for="descripcion_servicio">Descripción:</label>
+                <input type="text" id="descripcion_servicio" name="descripcion_servicio" required>
+
+                <label for="valor_servicio">Valor del servicio ($):</label>
+                <input type="number" step="0.01" id="valor_servicio" name="valor_servicio" required>
+
+                <input type="hidden" id="edit_index" name="edit_index" value="">
+                <button type="submit" id="form-submit-btn">Agregar Servicio</button>
+            </form>
+
+            <!-- Botón Limpiar Turnos Reservados -->
+            <button type="button" id="clear-turnos-btn" class="logout-btn">Limpiar Turnos Reservados</button>
+
+            <!-- Botón para cerrar sesión -->
+            <button onclick="cerrarSesion()" class="logout-btn">Cerrar sesión</button>
+        </div>
+
+        <!-- Acordeón para Servicios y Turnos -->
+        <div class="accordion-container">
+            <!-- Servicios -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">Servicios Disponibles para Clientes</div>
+                <div class="accordion-content" id="servicios-list">
+                    <!-- Servicios se cargan aquí -->
+                </div>
+            </div>
+
+            <!-- Turnos -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">Turnos Reservados</div>
+                <div class="accordion-content" id="turnos-list">
+                    <!-- Turnos se cargan aquí -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simula sesión de usuario (para probar)
+        const usuario = { correo: "admin@empresa.com", rol: "administrador" };
+
+        // Verifica si el usuario está autenticado y es administrador
+        if (!usuario || usuario.rol !== 'administrador') {
+            window.location.href = 'index.html'; // Redirige si no es admin
+        }
+
+        // Obtener servicios y turnos del almacenamiento local o inicializar vacíos
+        let servicios = JSON.parse(localStorage.getItem('servicios')) || [];
+        let turnos = JSON.parse(localStorage.getItem('turnos')) || [];
+
+        // Función para renderizar los servicios
+        function renderizarServicios() {
+            const serviciosList = document.getElementById('servicios-list');
+            serviciosList.innerHTML = '';
+            if (servicios.length > 0) {
+                servicios.forEach((servicio, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `${servicio.nombre_servicio} - ${servicio.descripcion_servicio} - $${servicio.valor_servicio.toFixed(2)}`;
+
+                    // Botón para editar servicio
+                    const editButton = document.createElement('button');
+                    editButton.textContent = 'Editar';
+                    editButton.className = 'edit-btn';
+                    editButton.onclick = () => cargarFormularioParaEditar(index);
+                    li.appendChild(editButton);
+
+                    serviciosList.appendChild(li);
+                });
+            } else {
+                serviciosList.innerHTML = '<p>No hay servicios disponibles.</p>';
+            }
+        }
+
+        // Renderizar turnos
+        function renderizarTurnos() {
+            const turnosList = document.getElementById('turnos-list');
+            turnosList.innerHTML = '';
+            let turnos = JSON.parse(localStorage.getItem('turnos')) || [];
+            if (turnos.length > 0) {
+                turnos.forEach(turno => {
+                    const li = document.createElement('li');
+                    li.textContent = `Cliente: ${turno.nombre_cliente} - Servicio: ${turno.nombre_servicio} - Valor: $${turno.valor_servicio}`;
+                    turnosList.appendChild(li);
+                });
+            } else {
+                turnosList.innerHTML = '<p>No hay turnos reservados.</p>';
+            }
+        }
+
+
+        // Manejo del acordeón
+        function toggleAccordion(headerElement) {
+            const content = headerElement.nextElementSibling;
+            content.style.display = content.style.display === "block" ? "none" : "block";
+        }
+
+        // Manejo de formulario de servicio (para agregar/editar)
+        document.getElementById('service-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const nombre_servicio = document.getElementById('nombre_servicio').value;
+            const descripcion_servicio = document.getElementById('descripcion_servicio').value;
+            const valor_servicio = parseFloat(document.getElementById('valor_servicio').value);
+            const editIndex = document.getElementById('edit_index').value;
+
+            if (editIndex !== '') {
+                // Editar servicio existente
+                servicios[editIndex] = { nombre_servicio, descripcion_servicio, valor_servicio };
+                alert("Servicio actualizado con éxito.");
+            } else {
+                // Agregar nuevo servicio
+                servicios.push({ nombre_servicio, descripcion_servicio, valor_servicio });
+                alert("Servicio agregado con éxito.");
+            }
+
+            // Guardar en localStorage
+            localStorage.setItem('servicios', JSON.stringify(servicios));
+            renderizarServicios();
+            document.getElementById('service-form').reset();
+            document.getElementById('form-title').textContent = "Agregar Servicio";
+            document.getElementById('form-submit-btn').textContent = "Agregar Servicio";
+        });
+
+        // Cargar datos al formulario para editar
+        function cargarFormularioParaEditar(index) {
+            const servicio = servicios[index];
+            document.getElementById('nombre_servicio').value = servicio.nombre_servicio;
+            document.getElementById('descripcion_servicio').value = servicio.descripcion_servicio;
+            document.getElementById('valor_servicio').value = servicio.valor_servicio;
+            document.getElementById('edit_index').value = index;
+            document.getElementById('form-title').textContent = "Editar Servicio";
+            document.getElementById('form-submit-btn').textContent = "Guardar Cambios";
+        }
+
+        // Confirmación antes de limpiar turnos
+        document.getElementById('clear-turnos-btn').addEventListener('click', () => {
+            if (confirm("¿Estás seguro de que deseas limpiar los turnos reservados?")) {
+                turnos = [];
+                localStorage.setItem('turnos', JSON.stringify(turnos));
+                renderizarTurnos();
+                alert("Turnos reservados limpiados exitosamente.");
+            }
+        });
+
+        // Función para cerrar sesión (sin borrar datos)
+        function cerrarSesion() {
+            alert("Sesión cerrada. Los datos permanecen guardados.");
+            window.location.href = 'index.html';
+        }
+
+        // Renderizar los datos al cargar la página
+        renderizarServicios();
+        renderizarTurnos();
+    </script>
+</body>
+
+</html>

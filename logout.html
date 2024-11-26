@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cerrar Sesión</title>
+    <script>
+        // Función para eliminar las cookies (si las hay)
+        function eliminarCookies() {
+            var cookies = document.cookie.split(";"); // Obtenemos todas las cookies
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i];
+                var eqPos = cookie.indexOf("=");
+                var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                // Borramos la cookie configurando su fecha de expiración en el pasado
+                document.cookie = name + "=;expires=" + new Date(0).toUTCString() + ";path=/";
+            }
+        }
+
+        // Función para cerrar sesión y redirigir al login
+        function cerrarSesion() {
+            // Eliminar las cookies y el almacenamiento local
+            eliminarCookies();
+            localStorage.clear(); // Limpiar el almacenamiento local
+            sessionStorage.clear(); // Limpiar el almacenamiento de sesión
+
+            // Redirigir a la página de login
+            window.location.href = 'login.html';
+        }
+
+        // Llamar a la función de cerrar sesión cuando la página cargue
+        window.onload = cerrarSesion;
+    </script>
+</head>
+<body>
+    <!-- Esta página redirige automáticamente a la página de login -->
+</body>
+</html>

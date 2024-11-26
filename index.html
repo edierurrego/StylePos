@@ -23,7 +23,7 @@
             box-shadow: 0 0 10px rgba(250, 248, 248, 0.993);
             width: 80%;
             max-width: 500px;
-            margin: 60px auto 20px; /* Aumentado margen superior para evitar que el logo quede oculto */
+            margin: 60px auto 20px;
             position: relative;
         }
 
@@ -57,7 +57,6 @@
             left: 20px;
             width: 120px;
             height: auto;
-            
         }
 
         .logo-container img {
@@ -65,7 +64,6 @@
             height: auto;
             object-fit: contain;
             border-radius: 100px;
-            
         }
 
         .logo-container .logo-message {
@@ -75,7 +73,7 @@
             transform: translateX(-1%);
             color: #fff;
             font-size: 1em;
-            font-family: 'Dancing Script', cursive; /* Fuente manuscrita */
+            font-family: 'Dancing Script', cursive;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
@@ -136,13 +134,13 @@
         /* Responsividad */
         @media (max-width: 768px) {
             .logo-container {
-                width: 80px; /* Tamaño reducido */
-                top: 10px; /* Ajuste de posición */
+                width: 80px;
+                top: 10px;
                 left: 10px;
             }
 
             .logo-container .logo-message {
-                font-size: 1rem; /* Tamaño de texto reducido */
+                font-size: 1rem;
             }
 
             .footer-pop {
@@ -158,7 +156,7 @@
 
             /* Ajuste para el contenedor en pantallas pequeñas */
             .bienvenida-container {
-                margin-top: 80px; /* Asegura que el logo no se oculte en pantallas pequeñas */
+                margin-top: 80px;
             }
         }
     </style>
@@ -174,8 +172,8 @@
     <div class="bienvenida-container">
         <h1>¡Bienvenido, Cliente!</h1>
         <p>¿Qué te gustaría hacer hoy?</p>
-        <button onclick="window.location.href='reservar_turnos.php'">Regístrate y disfruta de los beneficios</button>
-        <button onclick="window.location.href='login.html'">Iniciar sesión</button>
+        <button onclick="redirectToPage('reservar_turnos.html')">Regístrate y disfruta de los beneficios</button>
+        <button onclick="redirectToPage('login.html')">Iniciar sesión</button>
     </div>
 
     <div class="footer-pop" onclick="toggleFooterContent()">
@@ -190,6 +188,12 @@
     </div>
 
     <script>
+        // Redirección a otras páginas
+        function redirectToPage(pageUrl) {
+            window.location.href = pageUrl;
+        }
+
+        // Función para alternar la visibilidad del contenido del footer
         function toggleFooterContent() {
             const footerContent = document.getElementById('footerContent');
             footerContent.classList.toggle('active');

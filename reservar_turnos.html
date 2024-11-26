@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservar Turno</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px; /* Espaciado para pantallas pequeñas */
+            box-sizing: border-box; /* Incluye padding y border en los cálculos de ancho/alto */
+        }
+
+        .carnet {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(250, 248, 248, 0.993);
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        label {
+            margin: 10px 0 5px;
+            display: block;
+            font-size: 1rem;
+        }
+
+        input[type="text"],
+        select,
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.875rem;
+            margin-bottom: 10px;
+        }
+
+        /* Estilo para pantallas más grandes */
+        @media (min-width: 768px) {
+            body {
+                padding: 40px;
+            }
+
+            .carnet {
+                padding: 30px;
+                max-width: 500px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            label {
+                font-size: 1.1rem;
+            }
+
+            input[type="text"],
+            select,
+            input[type="submit"] {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Estilo para pantallas muy pequeñas */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.25rem;
+            }
+
+            input[type="text"],
+            select,
+            input[type="submit"] {
+                font-size: 0.875rem;
+                padding: 8px;
+            }
+
+            label {
+                font-size: 0.875rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="carnet">
+        <h1>Reservar Turno</h1>
+        <form id="reservar-form">
+            <label for="nombre_cliente">Nombre del Cliente:</label>
+            <input type="text" id="nombre_cliente" name="nombre_cliente" placeholder="Ingrese su nombre" required>
+
+            <label for="nombre_servicio">Seleccione el Servicio:</label>
+            <select id="nombre_servicio" name="nombre_servicio" required>
+                <option value="" disabled selected>Seleccione un servicio</option>
+            </select>
+
+            <input type="submit" value="Reservar">
+        </form>
+    </div>
+
+    <script>
+        // Cargar servicios desde localStorage
+        let servicios = JSON.parse(localStorage.getItem('servicios')) || [];
+
+        // Llenar el dropdown de servicios
+        const servicioSelect = document.getElementById('nombre_servicio');
+        servicios.forEach(servicio => {
+            const option = document.createElement('option');
+            option.value = servicio.nombre_servicio;
+            option.textContent = `${servicio.nombre_servicio} - $${servicio.valor_servicio.toFixed(2)}`;
+            servicioSelect.appendChild(option);
+        });
+
+        // Manejo del formulario de reserva
+        document.getElementById('reservar-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const nombre_cliente = document.getElementById('nombre_cliente').value;
+            const nombre_servicio = document.getElementById('nombre_servicio').value;
+
+            if (nombre_cliente && nombre_servicio) {
+                // Recuperar turno seleccionado
+                const servicioSeleccionado = servicios.find(servicio => servicio.nombre_servicio === nombre_servicio);
+                const valor_servicio = servicioSeleccionado ? servicioSeleccionado.valor_servicio : 0;
+
+                // Agregar a los turnos
+                let turnos = JSON.parse(localStorage.getItem('turnos')) || [];
+                turnos.push({
+                    nombre_cliente: nombre_cliente,
+                    nombre_servicio: nombre_servicio,
+                    valor_servicio: parseFloat(valor_servicio).toFixed(2)
+                });
+
+                // Guardar turnos en localStorage
+                localStorage.setItem('turnos', JSON.stringify(turnos));
+
+                alert('Reserva realizada con éxito.');
+                window.location.href = 'index.html'; // Redirige a una página de inicio o confirmación
+            } else {
+                alert('Error: Todos los campos son obligatorios.');
+            }
+        });
+    </script>
+</body>
+
+</html>

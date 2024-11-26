@@ -8,16 +8,16 @@ body {
     align-items: center;
     min-height: 100vh;
     box-shadow: 0 0 10px rgba(250, 248, 248, 0.993);
+    box-sizing: border-box; /* Asegura que los paddings y borders no afecten el tamaño */
 }
 
 .perfil-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    width: 80%;
+    width: 90%; /* Reduce el ancho para pantallas más pequeñas */
     max-width: 1000px;
     gap: 20px;
-    
 }
 
 .form-container,
@@ -27,51 +27,38 @@ body {
     padding: 20px;
     border-radius: 30px;
     box-shadow: 0 0 10px rgba(250, 248, 248, 0.993);
-    background: url('image.png') no-repeat center center / cover; /* Reemplaza con tu imagen */
-
-}
-
-.form-container,
-.accordion-container {
-    flex: 1 1 calc(45% - 20px);
-    background: #fff;
-    padding: 20px;
-    border-radius: 30px;
-    box-shadow: 0 0 10px rgba(250, 248, 248, 0.993);
-    background: url('image.png') no-repeat center center / cover; /* Asegúrate de que la ruta de la imagen sea correcta */
+    background: url('image.png') no-repeat center center / cover; /* Imagen de fondo */
     position: relative;
+    transition: all 0.3s ease; /* Animación suave para transiciones */
 }
 
-/* Estilo para agregar el mensaje después de la imagen */
-
+/* Mensaje superpuesto al acordeón */
 .accordion-container::after {
-    content: "StylePos"; /* El mensaje que quieres mostrar */
-    font-family: 'Dancing Script', cursive; /* Tipografía manuscrita */
-    font-size: 2.5rem; /* Tamaño de la letra */
-    color: #fff; /* Color del texto */
+    content: "StylePos";
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    color: #fff;
     text-align: center;
     position: absolute;
-    bottom: 10px; /* Coloca el mensaje en la parte inferior del contenedor */
+    bottom: 10px;
     left: 50%;
-    transform: translateX(-50%); /* Centra el mensaje horizontalmente */
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semitransparente */
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
     padding: 10px 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Sombra para resaltar */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-
+/* Estilos del formulario */
 .form-container {
     background: #ccc;
     color: #fff;
-    
 }
 
 .form-container form {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    
 }
 
 .form-container label {
@@ -85,7 +72,6 @@ body {
     border: 1px solid #ddd;
     border-radius: 20px;
     font-size: 1rem;
-    
 }
 
 .form-container button {
@@ -117,6 +103,7 @@ body {
     transition: background-color 0.3s ease;
 }
 
+/* Estilos del acordeón */
 .accordion-item {
     border: 1px solid #ddd;
     border-radius: 30px;
@@ -136,9 +123,9 @@ body {
     padding: 15px;
     display: none;
     background-color: #ccc;
-    max-height: 80px; /* Limita el alto máximo */
-    overflow-y: auto; /* Permite scroll si excede el espacio */
-    transition: max-height 0.3s ease; /* Transición suave */
+    max-height: 80px;
+    overflow-y: auto;
+    transition: max-height 0.3s ease;
     border-top: 1px solid #ddd;
 }
 
@@ -146,9 +133,45 @@ body {
     display: block;
 }
 
+/* Media Queries para hacer responsive */
 @media (max-width: 768px) {
     .form-container,
     .accordion-container {
         flex: 1 1 100%;
+    }
+    
+    .form-container button {
+        width: 100%; /* Botones más anchos para pantallas pequeñas */
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px; /* Ajuste de padding para pantallas más pequeñas */
+    }
+
+    .perfil-container {
+        gap: 10px; /* Espaciado reducido */
+    }
+
+    .form-container,
+    .accordion-container {
+        padding: 15px;
+        border-radius: 20px; /* Bordes más pequeños */
+    }
+
+    .form-container input[type="text"],
+    .form-container input[type="number"] {
+        font-size: 0.9rem;
+        padding: 8px; /* Inputs más pequeños */
+    }
+
+    .form-container button {
+        font-size: 0.85rem;
+        padding: 8px; /* Botones más pequeños */
+    }
+
+    .accordion-container::after {
+        font-size: 1.8rem; /* Texto más pequeño en pantallas pequeñas */
     }
 }
