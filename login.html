@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="">
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-image: url(''); /* Reemplaza con tu imagen de fondo */
+        background-size: 90%;
+        background-attachment: fixed;
+    }
+
+     /* Logo con mensaje manuscrito */
+     .logo-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 120px;
+            height: auto;
+            
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            border-radius: 100px;
+            
+        }
+
+        .logo-container .logo-message {
+            position: absolute;
+            top: -5px;
+            left: 70%;
+            transform: translateX(-1%);
+            color: #fff;
+            font-size: 1em;
+            font-family: 'Dancing Script', cursive; /* Fuente manuscrita */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+
+    .login-container {
+        color: #ebe7e7;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(250, 248, 248, 0.993);
+        width: 400px;
+        background-image: url(''); /* Reemplaza con tu imagen de fondo */
+        background-size: cover;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        color: #ffff;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        border: 3px solid #ccc;
+        border-radius: 20px;
+        box-sizing: border-box;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: aqua;
+        color: #000;
+        border-radius: 15px;
+        cursor: pointer;
+        border: none;
+    }
+
+    button:hover {
+        background-color: #218838;
+    }
+
+    #loginMessage {
+        margin-top: 10px;
+        color: #ffff;
+        text-align: center;
+    }
+
+    .error-message {
+        color: red;
+        text-align: center;
+        margin-top: 10px;
+    }
+</style>
+<body>
+     <!-- Logo con mensaje -->
+     <div class="logo-container">
+        <img src="image.png" alt="Logo de la Empresa"> <!-- Cambia 'logo.png' por tu archivo PNG transparente -->
+        <div class="logo-message">StylePos</div>
+    </div>
+
+    <div class="login-container">
+        <h1>Iniciar Sesión</h1>
+        <form method="POST" action="login.php">
+            <div class="form-group">
+                <label for="username">Nombre de Usuario:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">INICIAR</button>
+            <!-- Mostrar mensaje de error si hay uno -->
+            <?php if (isset($_SESSION['message'])): ?>
+                <div class="error-message">
+                    <?php echo $_SESSION['message']; unset($_SESSION['message']); ?>
+                </div>
+            <?php endif; ?>
+        </form>
+    </div>
+</body>
+</html>
